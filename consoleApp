@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ClosedXML.Excel;
+namespace ConsoleApplication6
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      Console.WriteLine("Abrindo Arquivo Excel...");
+      var wb = new XLWorkbook(@"E:\ValorMercado.xlsx");
+      var planilha = wb.Worksheet(1);
+      Console.Clear();
+      Console.WriteLine("".PadRight(50, '-'));
+      Console.WriteLine("Jogador".PadRight(35) + "Valor Mercado".PadLeft(15));
+      Console.WriteLine("".PadRight(50, '-'));
+      var linha = 2;
+      while (true)
+      {
+        var nome = planilha.Cell("B" + linha.ToString()).Value.ToString();
+        if (string.IsNullOrEmpty(nome)) break;
+        Console.Write(nome.PadRight(35));
+        Console.WriteLine(planilha.Cell("D" + linha.ToString()).Value.ToString().Trim().PadLeft(15));
+        linha++;
+      }
+      planilha.Dispose();
+      wb.Dispose();
+      Console.WriteLine("".PadRight(50, '-'));
+      Console.WriteLine("Feito!");
+      Console.ReadKey();
+    }
+  }
+}
